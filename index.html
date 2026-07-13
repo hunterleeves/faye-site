@@ -9,6 +9,9 @@
 <!-- BETA LINK — swap for the TestFlight public link when it's live -->
 <!-- e.g. https://testflight.apple.com/join/XXXXXXXX -->
 
+<!-- Photos: Pexels (free license, no attribution required)
+     marigold.jpg / win-beanie.jpg / win-denim.jpg — pexels.com photos 36730408, 36730419, 36730424 -->
+
 <meta property="og:title" content="Faye — your personal stylist, in your pocket">
 <meta property="og:description" content="Honest, specific outfit advice, like texting your stylish friend. Now in beta on iPhone.">
 <meta property="og:image" content="https://hunterleeves.github.io/faye-site/icon.png">
@@ -211,12 +214,130 @@
     margin-bottom: 3px;
   }
 
+  .msg.photo {
+    padding: 4px;
+    background: var(--bubble);
+    max-width: 62%;
+  }
+
+  .msg.photo img {
+    display: block;
+    width: 100%;
+    aspect-ratio: 4 / 5;
+    object-fit: cover;
+    object-position: 62% 35%;
+    border-radius: 13px;
+    border-bottom-right-radius: 2px;
+  }
+
   .script {
     font-family: "Caveat", cursive;
     font-size: 22px;
     color: var(--rose);
     margin-top: 18px;
     transform: rotate(-2deg);
+  }
+
+  /* ---------- sections: kibbe + outfit wins ---------- */
+
+  .section {
+    margin-top: 12svh;
+    width: 100%;
+  }
+
+  .section h2 {
+    font-family: "DM Serif Display", Georgia, serif;
+    font-style: italic;
+    font-weight: 400;
+    font-size: clamp(34px, 8vw, 44px);
+    color: var(--ink);
+  }
+
+  .section .lede {
+    margin: 14px auto 0;
+    max-width: 46ch;
+    font-size: 17.5px;
+    line-height: 1.55;
+    color: var(--text);
+  }
+
+  .profile-card {
+    margin-top: 28px;
+    background: var(--sheet);
+    border: 0.75px solid var(--hairline);
+    border-radius: 16px;
+    padding: 4px 22px;
+    text-align: left;
+  }
+
+  .profile-row {
+    padding: 18px 0;
+  }
+
+  .profile-row + .profile-row {
+    border-top: 0.5px solid var(--hairline);
+  }
+
+  .profile-row .label {
+    display: block;
+    font-size: 12px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 6px;
+  }
+
+  .profile-row .value {
+    font-style: italic;
+    font-size: 20px;
+    color: var(--ink);
+  }
+
+  .profile-row .desc {
+    display: block;
+    margin-top: 3px;
+    font-size: 15px;
+    color: var(--muted);
+  }
+
+  .section .caption {
+    margin-top: 16px;
+    font-style: italic;
+    font-size: 14.5px;
+    color: var(--muted);
+  }
+
+  .wins-grid {
+    margin-top: 28px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+  }
+
+  .win {
+    position: relative;
+    border-radius: 12px;
+    overflow: hidden;
+    border: 0.75px solid var(--hairline);
+  }
+
+  .win img {
+    display: block;
+    width: 100%;
+    aspect-ratio: 1;
+    object-fit: cover;
+  }
+
+  .win .tag {
+    position: absolute;
+    left: 8px;
+    bottom: 8px;
+    background: var(--cream);
+    color: var(--ink);
+    font-style: italic;
+    font-size: 12.5px;
+    padding: 3px 10px;
+    border-radius: 999px;
   }
 
   /* ---------- features line ---------- */
@@ -275,11 +396,41 @@
 
   <section class="after-reveal" style="width:100%">
     <div class="chat" aria-label="Example conversation with Faye">
-      <p class="msg you">be honest — does this work for date night?</p>
-      <p class="msg faye"><span class="who">Faye</span>the jacket is doing all the talking and the shoes aren&rsquo;t listening. swap in your tan boots — the ones you saved last week — and it&rsquo;s a yes.</p>
+      <p class="msg you photo"><img src="marigold.jpg" alt="A woman in a fitting room holding a marigold top up to the mirror" loading="lazy"></p>
+      <p class="msg you">keep or return? be honest</p>
+      <p class="msg faye"><span class="who">Faye</span>keep. that marigold is pure True Spring — your face got brighter just holding it up. front-tuck it into the jeans from your last win and it&rsquo;s a whole outfit.</p>
       <p class="msg you">this is why i keep you around</p>
     </div>
     <p class="script">honest, like a sister &mdash; promise</p>
+
+    <section class="section">
+      <h2>fluent in Kibbe</h2>
+      <p class="lede">Most apps stop at &ldquo;casual&rdquo; or &ldquo;dressy.&rdquo; Faye speaks the language you already use — set your Kibbe body type and up to two color seasons in your profile, and every piece of advice gets filtered through them.</p>
+      <div class="profile-card">
+        <div class="profile-row">
+          <span class="label">Kibbe body type</span>
+          <span class="value">Soft Natural</span>
+          <span class="desc">balanced frame with soft curves</span>
+        </div>
+        <div class="profile-row">
+          <span class="label">Color season&ensp;&middot;&ensp;up to 2</span>
+          <span class="value">True Spring &middot; Soft Autumn</span>
+          <span class="desc">warm, clear, bright &middot; warm, muted, earthy</span>
+        </div>
+      </div>
+      <p class="caption">all 10 Kibbe types, all 12 color seasons — and if you don&rsquo;t know yours yet, tell her. she&rsquo;ll figure it out with you from your photos.</p>
+    </section>
+
+    <section class="section">
+      <h2>outfit wins</h2>
+      <p class="lede">When an outfit works, save it and tag it. Faye remembers every win — so next time you&rsquo;re staring at your closet, she suggests the things that already worked, not clothes you don&rsquo;t own.</p>
+      <div class="wins-grid">
+        <figure class="win"><img src="win-denim.jpg" alt="Saved outfit: denim jacket mirror selfie" loading="lazy" style="object-position: 84% 40%"><figcaption class="tag">date night</figcaption></figure>
+        <figure class="win"><img src="win-beanie.jpg" alt="Saved outfit: beanie and jeans look" loading="lazy" style="object-position: 74% 38%"><figcaption class="tag">weekend</figcaption></figure>
+        <figure class="win"><img src="marigold.jpg" alt="Saved outfit: the marigold top" loading="lazy" style="object-position: 63% 32%"><figcaption class="tag">today</figcaption></figure>
+      </div>
+      <p class="caption">tap any win to ask her about it again.</p>
+    </section>
 
     <p class="features">
       <span class="item">knows your colors</span><span class="dot">·</span><span class="item">remembers your closet</span><span class="dot">·</span><span class="item">tells you the truth</span>
