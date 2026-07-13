@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Faye — your personal stylist, in your pocket</title>
+<meta name="description" content="Send Faye an outfit photo and get honest, specific advice — like texting your stylish friend. Now in beta on iPhone.">
+
+<!-- BETA LINK — swap for the TestFlight public link when it's live -->
+<!-- e.g. https://testflight.apple.com/join/XXXXXXXX -->
+
+<meta property="og:title" content="Faye — your personal stylist, in your pocket">
+<meta property="og:description" content="Honest, specific outfit advice, like texting your stylish friend. Now in beta on iPhone.">
+<meta property="og:image" content="https://hunterleeves.github.io/faye-site/icon.png">
+<meta property="og:type" content="website">
+
+<link rel="icon" type="image/png" href="icon.png">
+<link rel="apple-touch-icon" href="icon.png">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=EB+Garamond:ital@0;1&family=Caveat&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    --cream:    #FAF2DB;  /* Theme.background */
+    --card:     #F2E8CF;  /* Theme.cardBackground */
+    --sheet:    #FEF9E8;  /* Theme.chatSurface */
+    --ink:      #1A140F;  /* Theme.accent */
+    --bubble:   #2B2E33;  /* Theme.userBubble */
+    --bubble-text: #FAF5E8; /* Theme.userBubbleText */
+    --rose:     #D19E94;  /* Theme.accentWarm */
+    --text:     #2E2621;  /* Theme.textPrimary */
+    --muted:    #736B66;  /* Theme.textSecondary */
+    --hairline: #E0D9CF;  /* Theme.divider */
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--cream);
+    color: var(--text);
+    font-family: "EB Garamond", Georgia, serif;
+    -webkit-font-smoothing: antialiased;
+    min-height: 100svh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  main {
+    width: 100%;
+    max-width: 560px;
+    padding: 0 28px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  /* ---------- logo reveal ---------- */
+
+  .hero {
+    min-height: 88svh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding-top: 6svh;
+  }
+
+  .wordmark {
+    font-family: "DM Serif Display", Georgia, serif;
+    font-style: italic;
+    font-weight: 400;
+    font-size: clamp(72px, 18vw, 128px);
+    line-height: 1.05;
+    color: var(--ink);
+    display: flex;
+  }
+
+  .wordmark span {
+    display: inline-block;
+    opacity: 0;
+    transform: translateY(0.35em);
+    animation: rise 0.9s cubic-bezier(0.19, 1, 0.22, 1) forwards;
+  }
+  .wordmark span:nth-child(1) { animation-delay: 0.15s; }
+  .wordmark span:nth-child(2) { animation-delay: 0.27s; }
+  .wordmark span:nth-child(3) { animation-delay: 0.39s; }
+  .wordmark span:nth-child(4) { animation-delay: 0.51s; }
+
+  @keyframes rise {
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .rule {
+    width: min(280px, 60vw);
+    height: 0.75px;
+    background: var(--ink);
+    margin: 22px 0 20px;
+    transform: scaleX(0);
+    animation: draw 0.8s cubic-bezier(0.19, 1, 0.22, 1) 0.85s forwards;
+  }
+
+  @keyframes draw {
+    to { transform: scaleX(1); }
+  }
+
+  .tagline {
+    font-style: italic;
+    font-size: clamp(19px, 4.5vw, 23px);
+    color: var(--ink);
+    opacity: 0;
+    animation: fade 0.9s ease 1.25s forwards;
+  }
+
+  @keyframes fade {
+    to { opacity: 1; }
+  }
+
+  .after-reveal {
+    opacity: 0;
+    animation: rise 0.9s cubic-bezier(0.19, 1, 0.22, 1) 1.7s forwards;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .wordmark span, .rule, .tagline, .after-reveal {
+      animation: none;
+      opacity: 1;
+      transform: none;
+    }
+  }
+
+  /* ---------- beta button (double-bordered, like the app) ---------- */
+
+  .beta {
+    display: inline-block;
+    margin-top: 44px;
+    border: 0.75px solid var(--ink);
+    padding: 4px;
+    text-decoration: none;
+  }
+
+  .beta span {
+    display: block;
+    border: 1.5px solid var(--ink);
+    padding: 15px 44px;
+    font-style: italic;
+    font-size: 19px;
+    color: var(--ink);
+    transition: background 0.25s ease, color 0.25s ease;
+  }
+
+  .beta:hover span {
+    background: var(--ink);
+    color: var(--cream);
+  }
+
+  .beta-note {
+    margin-top: 14px;
+    font-style: italic;
+    font-size: 14px;
+    color: var(--muted);
+  }
+
+  /* ---------- chat vignette ---------- */
+
+  .chat {
+    width: 100%;
+    background: var(--sheet);
+    border: 0.75px solid var(--hairline);
+    border-radius: 16px;
+    padding: 26px 22px;
+    margin: 10svh 0 0;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    text-align: left;
+  }
+
+  .msg {
+    max-width: 82%;
+    padding: 11px 15px;
+    font-size: 16.5px;
+    line-height: 1.45;
+    border-radius: 16px;
+  }
+
+  .msg.you {
+    align-self: flex-end;
+    background: var(--bubble);
+    color: var(--bubble-text);
+    border-bottom-right-radius: 4px;
+  }
+
+  .msg.faye {
+    align-self: flex-start;
+    background: var(--card);
+    color: var(--text);
+    border-bottom-left-radius: 4px;
+  }
+
+  .msg .who {
+    display: block;
+    font-style: italic;
+    font-size: 12.5px;
+    color: var(--muted);
+    margin-bottom: 3px;
+  }
+
+  .script {
+    font-family: "Caveat", cursive;
+    font-size: 22px;
+    color: var(--rose);
+    margin-top: 18px;
+    transform: rotate(-2deg);
+  }
+
+  /* ---------- features line ---------- */
+
+  .features {
+    margin-top: 8svh;
+    font-style: italic;
+    font-size: clamp(16px, 4vw, 18px);
+    color: var(--text);
+  }
+
+  .features .item { white-space: nowrap; }
+  .features .dot { color: var(--rose); margin: 0 10px; }
+
+  @media (max-width: 480px) {
+    .features .item { display: block; line-height: 2.1; }
+    .features .dot { display: none; }
+  }
+
+  /* ---------- editorial double rule + footer ---------- */
+
+  .double-rule {
+    width: min(280px, 60vw);
+    margin: 7svh auto 0;
+  }
+  .double-rule .thick { height: 2.5px; background: var(--ink); }
+  .double-rule .thin  { height: 0.5px; background: var(--ink); margin-top: 3px; }
+
+  footer {
+    padding: 26px 28px 40px;
+    text-align: center;
+    font-style: italic;
+    font-size: 14px;
+    color: var(--muted);
+    line-height: 1.9;
+  }
+</style>
+</head>
+<body>
+
+<main>
+  <section class="hero">
+    <h1 class="wordmark" aria-label="Faye">
+      <span>F</span><span>a</span><span>y</span><span>e</span>
+    </h1>
+    <div class="rule"></div>
+    <p class="tagline">your personal stylist, in your pocket</p>
+
+    <div class="after-reveal">
+      <a class="beta" href="mailto:hunterleevescodes@gmail.com?subject=Faye%20beta%20access&body=Hi%20—%20I%27d%20love%20to%20try%20Faye.">
+        <span>join the beta</span>
+      </a>
+      <p class="beta-note">free during beta&ensp;·&ensp;iPhone only, for now</p>
+    </div>
+  </section>
+
+  <section class="after-reveal" style="width:100%">
+    <div class="chat" aria-label="Example conversation with Faye">
+      <p class="msg you">be honest — does this work for date night?</p>
+      <p class="msg faye"><span class="who">Faye</span>the jacket is doing all the talking and the shoes aren&rsquo;t listening. swap in your tan boots — the ones you saved last week — and it&rsquo;s a yes.</p>
+      <p class="msg you">this is why i keep you around</p>
+    </div>
+    <p class="script">honest, like a sister &mdash; promise</p>
+
+    <p class="features">
+      <span class="item">knows your colors</span><span class="dot">·</span><span class="item">remembers your closet</span><span class="dot">·</span><span class="item">tells you the truth</span>
+    </p>
+
+    <div class="double-rule">
+      <div class="thick"></div>
+      <div class="thin"></div>
+    </div>
+  </section>
+</main>
+
+<footer class="after-reveal">
+  your photos and chats stay on your phone — never uploaded to a server, never used to train AI<br>
+  &copy; 2026 Faye
+</footer>
+
+</body>
+</html>
