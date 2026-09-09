@@ -17,6 +17,16 @@
 <meta property="og:image" content="https://hunterleeves.github.io/faye-site/icon.png">
 <meta property="og:type" content="website">
 
+<!-- TikTok Pixel — paste your Pixel ID from Ads Manager > Assets > Events in place of TIKTOK_PIXEL_ID.
+     Leave as-is and nothing loads (the script bails on the placeholder). -->
+<script>
+  window.TIKTOK_PIXEL_ID = 'TIKTOK_PIXEL_ID';
+  if (window.TIKTOK_PIXEL_ID !== 'TIKTOK_PIXEL_ID') {
+    !function (w, d, t) { w.TiktokAnalyticsObject=t;var ttq=w[t]=w[t]||[];ttq.methods=["page","track","identify","instances","debug","on","off","once","ready","alias","group","enableCookie","disableCookie","holdConsent","revokeConsent","grantConsent"],ttq.setAndDefer=function(t,e){t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}};for(var i=0;i<ttq.methods.length;i++)ttq.setAndDefer(ttq,ttq.methods[i]);ttq.instance=function(t){for(var e=ttq._i[t]||[],n=0;n<ttq.methods.length;n++)ttq.setAndDefer(e,ttq.methods[n]);return e},ttq.load=function(e,n){var r="https://analytics.tiktok.com/i18n/pixel/events.js",o=n&&n.partner;ttq._i=ttq._i||{},ttq._i[e]=[],ttq._i[e]._u=r,ttq._t=ttq._t||{},ttq._t[e]=+new Date,ttq._o=ttq._o||{},ttq._o[e]=n||{};n=document.createElement("script");n.type="text/javascript",n.async=!0,n.src=r+"?sdkid="+e+"&lib="+t;e=document.getElementsByTagName("script")[0];e.parentNode.insertBefore(n,e)};
+      ttq.load(w.TIKTOK_PIXEL_ID); ttq.page(); }(window, document, 'ttq');
+  }
+</script>
+
 <link rel="icon" type="image/png" href="icon.png">
 <link rel="apple-touch-icon" href="icon.png">
 
@@ -168,6 +178,52 @@
     font-size: 14px;
     color: var(--muted);
   }
+
+  /* ---------- waitlist form ---------- */
+
+  .waitlist {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    width: 100%;
+  }
+
+  .waitlist .email {
+    width: min(340px, 100%);
+    margin-top: 44px;
+    padding: 14px 16px;
+    font-family: inherit;
+    font-style: italic;
+    font-size: 18px;
+    color: var(--ink);
+    text-align: center;
+    background: var(--sheet);
+    border: 0.75px solid var(--ink);
+    border-radius: 0;
+    outline: none;
+  }
+  .waitlist .email::placeholder { color: var(--muted); }
+  .waitlist .email:focus { box-shadow: 0 0 0 1.5px var(--ink); }
+
+  .waitlist .beta {
+    margin-top: 0;
+    background: none;
+    font: inherit;
+    color: inherit;
+    cursor: pointer;
+  }
+  .waitlist .beta:disabled { opacity: 0.55; cursor: default; }
+
+  .waitlist .beta-note { margin-top: 2px; }
+  .waitlist.done .email, .waitlist.done .beta { display: none; }
+  .waitlist.done .beta-note {
+    margin-top: 44px;
+    font-size: 19px;
+    color: var(--ink);
+  }
+
+  .hp { position: absolute; left: -9999px; width: 1px; height: 1px; opacity: 0; }
 
   /* ---------- chat vignette ---------- */
 
@@ -386,12 +442,13 @@
     <div class="rule"></div>
     <p class="tagline">your personal stylist, in your pocket</p>
 
-    <div class="after-reveal">
-      <a class="beta" href="mailto:hunterleevescodes@gmail.com?subject=Faye%20beta%20access&body=Hi%20—%20I%27d%20love%20to%20try%20Faye.">
-        <span>join the beta</span>
-      </a>
-      <p class="beta-note">free during beta&ensp;·&ensp;iPhone only, for now</p>
-    </div>
+    <form class="after-reveal waitlist" id="waitlist" novalidate>
+      <input class="email" type="email" name="email" placeholder="your email" autocomplete="email" required aria-label="Email address">
+      <!-- honeypot: real people never see or fill this -->
+      <input class="hp" type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true">
+      <button class="beta" type="submit"><span>join the waitlist</span></button>
+      <p class="beta-note" id="waitlistNote">be first in when Faye opens up&ensp;·&ensp;iPhone only, for now</p>
+    </form>
   </section>
 
   <section class="after-reveal" style="width:100%">
@@ -447,6 +504,59 @@
   your photos and chats stay on your phone — never uploaded to a server, never used to train AI<br>
   <a href="privacy.html" style="color: inherit;">privacy policy</a>&ensp;·&ensp;&copy; 2026 Faye
 </footer>
+
+<script>
+  // Waitlist: insert straight into Supabase through the REST API. The anon key
+  // is public by design; the table's RLS is insert-only, so this can add an
+  // email but never read the list.
+  (function () {
+    const SUPABASE_URL = 'https://zyfjainfxkdqsammjmke.supabase.co';
+    const ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inp5ZmphaW5meGtkcXNhbW1qbWtlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzYwOTUyMDEsImV4cCI6MjA5MTY3MTIwMX0.QrhXEJxqcgTqXy2CzMk2caFgTbvT6MftRCmBW83D3XE';
+    const form = document.getElementById('waitlist');
+    const note = document.getElementById('waitlistNote');
+    const button = form.querySelector('button');
+
+    function done(msg) {
+      form.classList.add('done');
+      note.textContent = msg;
+      if (window.ttq) ttq.track('SubmitForm');
+    }
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const email = form.email.value.trim().toLowerCase();
+      if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) {
+        note.textContent = 'that email doesn\u2019t look right \u2014 try again?';
+        return;
+      }
+      if (form.website.value) { done('you\u2019re on the list \u2014 talk soon'); return; } // bot
+
+      button.disabled = true;
+      note.textContent = 'one sec\u2026';
+      const source = new URLSearchParams(location.search).get('src') || 'site';
+      try {
+        const r = await fetch(SUPABASE_URL + '/rest/v1/waitlist', {
+          method: 'POST',
+          headers: {
+            'apikey': ANON,
+            'Authorization': 'Bearer ' + ANON,
+            'Content-Type': 'application/json',
+            'Prefer': 'return=minimal'
+          },
+          body: JSON.stringify({ email, source })
+        });
+        if (r.ok || r.status === 409) {           // 409 = already on it
+          done('you\u2019re on the list \u2014 talk soon');
+        } else {
+          throw new Error(r.status);
+        }
+      } catch (err) {
+        button.disabled = false;
+        note.textContent = 'hmm, that didn\u2019t go through \u2014 try once more?';
+      }
+    });
+  })();
+</script>
 
 </body>
 </html>
