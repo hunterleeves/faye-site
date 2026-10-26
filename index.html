@@ -4,18 +4,23 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Faye — your personal stylist, in your pocket</title>
-<meta name="description" content="Send Faye an outfit photo and get honest, specific advice — like texting your stylish friend. Now in beta on iPhone.">
+<meta name="description" content="Send Faye an outfit photo and get honest, specific advice tuned to your Kibbe body type and color season — like texting your most stylish friend. Coming soon to iPhone.">
+<link rel="canonical" href="https://heyfaye.app/">
+<meta name="theme-color" content="#FAF2DB">
 
-<!-- BETA LINK — swap for the TestFlight public link when it's live -->
-<!-- e.g. https://testflight.apple.com/join/XXXXXXXX -->
+<!-- Photos: Unsplash (free license, no attribution required), cropped so no faces show.
+     look-boots.jpg unsplash.com/photos/98206cfa8452 (photo-1632282004709)
+     win-coat.jpg   unsplash.com/photos/429c1b467548 (photo-1653875842174)
+     win-beret.jpg  unsplash.com/photos/3fad6a4a1846 (photo-1625899845678)
+     win-plaid.jpg  unsplash.com/photos/a3e6fb30fd41 (photo-1607568899989) -->
 
-<!-- Photos: Pexels (free license, no attribution required)
-     marigold.jpg / win-beanie.jpg / win-denim.jpg — pexels.com photos 36730408, 36730419, 36730424 -->
-
+<meta property="og:site_name" content="Faye">
 <meta property="og:title" content="Faye — your personal stylist, in your pocket">
-<meta property="og:description" content="Honest, specific outfit advice, like texting your stylish friend. Now in beta on iPhone.">
-<meta property="og:image" content="https://hunterleeves.github.io/faye-site/icon.png">
+<meta property="og:description" content="Honest, specific outfit advice, tuned to your Kibbe body type and colors. Coming soon to iPhone.">
+<meta property="og:url" content="https://heyfaye.app/">
+<meta property="og:image" content="https://heyfaye.app/icon.png">
 <meta property="og:type" content="website">
+<meta name="twitter:card" content="summary">
 
 <!-- TikTok Pixel — paste your Pixel ID from Ads Manager > Assets > Events in place of TIKTOK_PIXEL_ID.
      Leave as-is and nothing loads (the script bails on the placeholder). -->
@@ -32,64 +37,47 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=EB+Garamond:ital@0;1&family=Caveat&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=Caveat&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="site.css">
 
 <style>
-  :root {
-    --cream:    #FAF2DB;  /* Theme.background */
-    --card:     #F2E8CF;  /* Theme.cardBackground */
-    --sheet:    #FEF9E8;  /* Theme.chatSurface */
-    --ink:      #1A140F;  /* Theme.accent */
-    --bubble:   #2B2E33;  /* Theme.userBubble */
-    --bubble-text: #FAF5E8; /* Theme.userBubbleText */
-    --rose:     #D19E94;  /* Theme.accentWarm */
-    --text:     #2E2621;  /* Theme.textPrimary */
-    --muted:    #736B66;  /* Theme.textSecondary */
-    --hairline: #E0D9CF;  /* Theme.divider */
-  }
-
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-
-  html { scroll-behavior: smooth; }
-
-  body {
-    background: var(--cream);
-    color: var(--text);
-    font-family: "EB Garamond", Georgia, serif;
-    -webkit-font-smoothing: antialiased;
-    min-height: 100svh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-
   main {
     width: 100%;
-    max-width: 560px;
-    padding: 0 28px;
     display: flex;
     flex-direction: column;
     align-items: center;
-    text-align: center;
   }
 
-  /* ---------- logo reveal ---------- */
+  .wrap {
+    width: 100%;
+    max-width: 1080px;
+    padding: 0 28px;
+  }
+
+  /* ---------- hero + logo reveal ---------- */
 
   .hero {
-    min-height: 88svh;
+    min-height: 92svh;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    padding-top: 6svh;
+    text-align: center;
+    padding: 8svh 28px 6svh;
+  }
+
+  .hero .eyebrow {
+    margin-bottom: 18px;
+    opacity: 0;
+    animation: fade 0.9s ease 0.05s forwards;
   }
 
   .wordmark {
-    font-family: "DM Serif Display", Georgia, serif;
+    font-family: var(--serif-display);
     font-style: italic;
     font-weight: 400;
-    font-size: clamp(72px, 18vw, 128px);
-    line-height: 1.05;
+    font-size: clamp(84px, 20vw, 152px);
+    line-height: 1;
     color: var(--ink);
     display: flex;
   }
@@ -98,146 +86,206 @@
     display: inline-block;
     opacity: 0;
     transform: translateY(0.35em);
-    animation: rise 0.9s cubic-bezier(0.19, 1, 0.22, 1) forwards;
+    animation: rise 0.9s var(--ease) forwards;
   }
   .wordmark span:nth-child(1) { animation-delay: 0.15s; }
   .wordmark span:nth-child(2) { animation-delay: 0.27s; }
   .wordmark span:nth-child(3) { animation-delay: 0.39s; }
   .wordmark span:nth-child(4) { animation-delay: 0.51s; }
 
-  @keyframes rise {
-    to { opacity: 1; transform: translateY(0); }
-  }
+  @keyframes rise { to { opacity: 1; transform: translateY(0); } }
 
-  .rule {
-    width: min(280px, 60vw);
+  .hero .rule {
+    width: min(300px, 62vw);
     height: 0.75px;
     background: var(--ink);
-    margin: 22px 0 20px;
+    margin: 24px 0 20px;
     transform: scaleX(0);
-    animation: draw 0.8s cubic-bezier(0.19, 1, 0.22, 1) 0.85s forwards;
+    animation: draw 0.8s var(--ease) 0.85s forwards;
   }
 
-  @keyframes draw {
-    to { transform: scaleX(1); }
-  }
+  @keyframes draw { to { transform: scaleX(1); } }
 
   .tagline {
     font-style: italic;
-    font-size: clamp(19px, 4.5vw, 23px);
+    font-size: clamp(20px, 4.6vw, 25px);
     color: var(--ink);
     opacity: 0;
     animation: fade 0.9s ease 1.25s forwards;
   }
 
-  @keyframes fade {
-    to { opacity: 1; }
-  }
+  @keyframes fade { to { opacity: 1; } }
 
   .after-reveal {
     opacity: 0;
-    animation: rise 0.9s cubic-bezier(0.19, 1, 0.22, 1) 1.7s forwards;
+    animation: rise 0.9s var(--ease) 1.7s forwards;
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .wordmark span, .rule, .tagline, .after-reveal {
+    html { scroll-behavior: auto; }
+    .wordmark span, .hero .rule, .tagline, .hero .eyebrow, .after-reveal {
       animation: none;
       opacity: 1;
       transform: none;
     }
   }
 
-  /* ---------- beta button (double-bordered, like the app) ---------- */
-
-  .beta {
-    display: inline-block;
-    margin-top: 44px;
-    border: 0.75px solid var(--ink);
-    padding: 4px;
-    text-decoration: none;
-  }
-
-  .beta span {
-    display: block;
-    border: 1.5px solid var(--ink);
-    padding: 15px 44px;
-    font-style: italic;
-    font-size: 19px;
-    color: var(--ink);
-    transition: background 0.25s ease, color 0.25s ease;
-  }
-
-  .beta:hover span {
-    background: var(--ink);
-    color: var(--cream);
-  }
-
-  .beta-note {
-    margin-top: 14px;
-    font-style: italic;
-    font-size: 14px;
-    color: var(--muted);
-  }
-
-  /* ---------- waitlist form ---------- */
+  /* ---------- waitlist form: one double-bordered field, like the app's buttons ---------- */
 
   .waitlist {
+    width: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 12px;
-    width: 100%;
   }
 
-  .waitlist .email {
-    width: min(340px, 100%);
-    margin-top: 44px;
-    padding: 14px 16px;
+  .hero .waitlist { margin-top: 46px; }
+
+  .field {
+    width: min(460px, 100%);
+    border: 0.75px solid var(--ink);
+    padding: 4px;
+  }
+
+  .field-inner {
+    display: flex;
+    border: 1.5px solid var(--ink);
+    background: var(--sheet);
+  }
+
+  .field input {
+    flex: 1;
+    min-width: 0;
+    padding: 15px 18px;
     font-family: inherit;
     font-style: italic;
     font-size: 18px;
     color: var(--ink);
-    text-align: center;
-    background: var(--sheet);
-    border: 0.75px solid var(--ink);
+    background: transparent;
+    border: 0;
     border-radius: 0;
     outline: none;
   }
-  .waitlist .email::placeholder { color: var(--muted); }
-  .waitlist .email:focus { box-shadow: 0 0 0 1.5px var(--ink); }
+  .field input::placeholder { color: var(--muted); }
+  .field:focus-within { box-shadow: 0 0 0 1px var(--ink); }
 
-  .waitlist .beta {
-    margin-top: 0;
-    background: none;
-    font: inherit;
-    color: inherit;
+  .field button {
+    padding: 0 26px;
+    font-family: inherit;
+    font-style: italic;
+    font-size: 18px;
+    color: var(--cream);
+    background: var(--ink);
+    border: 0;
+    border-radius: 0;
     cursor: pointer;
+    white-space: nowrap;
+    transition: background 0.25s ease;
   }
-  .waitlist .beta:disabled { opacity: 0.55; cursor: default; }
+  .field button:hover { background: var(--bubble); }
+  .field button:focus-visible { outline-offset: -5px; outline-color: var(--cream); }
+  .field button:disabled { opacity: 0.6; cursor: default; }
 
-  .waitlist .beta-note { margin-top: 2px; }
-  .waitlist.done .email, .waitlist.done .beta { display: none; }
-  .waitlist.done .beta-note {
-    margin-top: 44px;
-    font-size: 19px;
+  @media (max-width: 480px) {
+    .field-inner { flex-direction: column; }
+    .field input { text-align: center; }
+    .field button { padding: 15px 0; }
+  }
+
+  .note {
+    margin-top: 14px;
+    min-height: 1.4em;
+    font-style: italic;
+    font-size: 15px;
+    color: var(--muted);
+  }
+  .note .sep { margin: 0 8px; color: var(--rose); }
+
+  .waitlist.done .field { display: none; }
+  .waitlist.done .note {
+    margin-top: 0;
+    font-size: 21px;
     color: var(--ink);
   }
 
   .hp { position: absolute; left: -9999px; width: 1px; height: 1px; opacity: 0; }
 
+  .scroll-cue {
+    margin-top: 7svh;
+    width: 0.75px;
+    height: 44px;
+    background: linear-gradient(var(--ink), transparent);
+  }
+
+  /* ---------- feature rows: copy + visual, side by side on wide screens ---------- */
+
+  .feature {
+    display: grid;
+    gap: 40px;
+    align-items: center;
+    padding: clamp(64px, 11svh, 120px) 0;
+  }
+
+  .feature + .feature { border-top: 0.5px solid var(--hairline); }
+
+  .copy { text-align: center; }
+
+  .copy h2 {
+    margin-top: 12px;
+    font-family: var(--serif-display);
+    font-style: italic;
+    font-weight: 400;
+    font-size: clamp(38px, 8.5vw, 54px);
+    line-height: 1.05;
+    color: var(--ink);
+  }
+
+  .copy .lede {
+    margin: 18px auto 0;
+    max-width: 44ch;
+    font-size: 18.5px;
+    line-height: 1.6;
+    color: var(--text);
+  }
+
+  .visual {
+    width: 100%;
+    max-width: 460px;
+    justify-self: center;
+  }
+
+  .caption {
+    margin-top: 16px;
+    font-style: italic;
+    font-size: 15px;
+    line-height: 1.5;
+    color: var(--muted);
+    text-align: center;
+  }
+
+  @media (min-width: 880px) {
+    .feature {
+      grid-template-columns: 1fr 1fr;
+      gap: 88px;
+    }
+    .copy { text-align: left; }
+    .copy .lede { margin-left: 0; }
+    .feature.flip .copy { order: 2; }
+    .visual .caption { text-align: left; }
+  }
+
   /* ---------- chat vignette ---------- */
 
   .chat {
-    width: 100%;
     background: var(--sheet);
     border: 0.75px solid var(--hairline);
-    border-radius: 16px;
+    border-radius: 22px;
     padding: 26px 22px;
-    margin: 10svh 0 0;
     display: flex;
     flex-direction: column;
-    gap: 12px;
+    gap: 10px;
     text-align: left;
+    box-shadow: 0 30px 60px -40px rgba(26, 20, 15, 0.35);
   }
 
   .msg {
@@ -245,21 +293,21 @@
     padding: 11px 15px;
     font-size: 16.5px;
     line-height: 1.45;
-    border-radius: 16px;
+    border-radius: 18px;
   }
 
   .msg.you {
     align-self: flex-end;
     background: var(--bubble);
     color: var(--bubble-text);
-    border-bottom-right-radius: 4px;
+    border-bottom-right-radius: 5px;
   }
 
   .msg.faye {
     align-self: flex-start;
     background: var(--card);
     color: var(--text);
-    border-bottom-left-radius: 4px;
+    border-bottom-left-radius: 5px;
   }
 
   .msg .who {
@@ -272,8 +320,7 @@
 
   .msg.photo {
     padding: 4px;
-    background: var(--bubble);
-    max-width: 62%;
+    max-width: 58%;
   }
 
   .msg.photo img {
@@ -281,90 +328,51 @@
     width: 100%;
     aspect-ratio: 4 / 5;
     object-fit: cover;
-    object-position: 62% 35%;
-    border-radius: 13px;
-    border-bottom-right-radius: 2px;
+    object-position: 50% 30%;
+    border-radius: 14px;
+    border-bottom-right-radius: 3px;
   }
 
   .script {
     font-family: "Caveat", cursive;
-    font-size: 22px;
+    font-size: 24px;
     color: var(--rose);
-    margin-top: 18px;
+    margin-top: 20px;
+    text-align: center;
     transform: rotate(-2deg);
   }
 
-  /* ---------- sections: kibbe + outfit wins ---------- */
-
-  .section {
-    margin-top: 12svh;
-    width: 100%;
-  }
-
-  .section h2 {
-    font-family: "DM Serif Display", Georgia, serif;
-    font-style: italic;
-    font-weight: 400;
-    font-size: clamp(34px, 8vw, 44px);
-    color: var(--ink);
-  }
-
-  .section .lede {
-    margin: 14px auto 0;
-    max-width: 46ch;
-    font-size: 17.5px;
-    line-height: 1.55;
-    color: var(--text);
-  }
+  /* ---------- kibbe profile card ---------- */
 
   .profile-card {
-    margin-top: 28px;
     background: var(--sheet);
     border: 0.75px solid var(--hairline);
-    border-radius: 16px;
-    padding: 4px 22px;
+    border-radius: 22px;
+    padding: 6px 26px;
     text-align: left;
+    box-shadow: 0 30px 60px -40px rgba(26, 20, 15, 0.35);
   }
 
-  .profile-row {
-    padding: 18px 0;
-  }
-
-  .profile-row + .profile-row {
-    border-top: 0.5px solid var(--hairline);
-  }
-
-  .profile-row .label {
-    display: block;
-    font-size: 12px;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    color: var(--muted);
-    margin-bottom: 6px;
-  }
+  .profile-row { padding: 20px 0; }
+  .profile-row + .profile-row { border-top: 0.5px solid var(--hairline); }
+  .profile-row .eyebrow { margin-bottom: 6px; }
 
   .profile-row .value {
     font-style: italic;
-    font-size: 20px;
+    font-size: 22px;
     color: var(--ink);
   }
 
   .profile-row .desc {
     display: block;
     margin-top: 3px;
-    font-size: 15px;
+    font-size: 15.5px;
     color: var(--muted);
   }
 
-  .section .caption {
-    margin-top: 16px;
-    font-style: italic;
-    font-size: 14.5px;
-    color: var(--muted);
-  }
+  /* ---------- outfit wins ---------- */
 
   .wins-grid {
-    margin-top: 28px;
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 10px;
@@ -372,7 +380,7 @@
 
   .win {
     position: relative;
-    border-radius: 12px;
+    border-radius: 14px;
     overflow: hidden;
     border: 0.75px solid var(--hairline);
   }
@@ -380,7 +388,7 @@
   .win img {
     display: block;
     width: 100%;
-    aspect-ratio: 1;
+    aspect-ratio: 3 / 4;
     object-fit: cover;
   }
 
@@ -391,169 +399,236 @@
     background: var(--cream);
     color: var(--ink);
     font-style: italic;
-    font-size: 12.5px;
+    font-size: 13px;
     padding: 3px 10px;
     border-radius: 999px;
   }
 
-  /* ---------- features line ---------- */
+  /* ---------- principles ---------- */
 
-  .features {
-    margin-top: 8svh;
-    font-style: italic;
-    font-size: clamp(16px, 4vw, 18px);
-    color: var(--text);
-  }
-
-  .features .item { white-space: nowrap; }
-  .features .dot { color: var(--rose); margin: 0 10px; }
-
-  @media (max-width: 480px) {
-    .features .item { display: block; line-height: 2.1; }
-    .features .dot { display: none; }
-  }
-
-  /* ---------- editorial double rule + footer ---------- */
-
-  .double-rule {
-    width: min(280px, 60vw);
-    margin: 7svh auto 0;
-  }
-  .double-rule .thick { height: 2.5px; background: var(--ink); }
-  .double-rule .thin  { height: 0.5px; background: var(--ink); margin-top: 3px; }
-
-  footer {
-    padding: 26px 28px 40px;
+  .principles {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    border-top: 0.75px solid var(--ink);
+    border-bottom: 0.75px solid var(--ink);
     text-align: center;
+  }
+
+  .principle { padding: 34px 20px; }
+  .principle + .principle { border-left: 0.5px solid var(--hairline); }
+
+  .principle h3 {
+    font-family: var(--serif-display);
     font-style: italic;
-    font-size: 14px;
+    font-weight: 400;
+    font-size: 24px;
+    color: var(--ink);
+  }
+
+  .principle p {
+    margin: 8px auto 0;
+    max-width: 26ch;
+    font-size: 16px;
+    line-height: 1.5;
     color: var(--muted);
-    line-height: 1.9;
+  }
+
+  @media (max-width: 720px) {
+    .principles { grid-template-columns: 1fr; }
+    .principle { padding: 26px 8px; }
+    .principle + .principle { border-left: 0; border-top: 0.5px solid var(--hairline); }
+  }
+
+  /* ---------- closing call to action ---------- */
+
+  .closing {
+    padding: clamp(80px, 14svh, 140px) 0 0;
+    text-align: center;
+  }
+
+  .closing h2 {
+    margin: 12px 0 34px;
+    font-family: var(--serif-display);
+    font-style: italic;
+    font-weight: 400;
+    font-size: clamp(42px, 9vw, 64px);
+    line-height: 1.05;
+    color: var(--ink);
   }
 </style>
 </head>
 <body>
 
 <main>
-  <section class="hero">
+  <section class="hero wrap">
+    <span class="eyebrow">coming soon to iPhone</span>
     <h1 class="wordmark" aria-label="Faye">
-      <span>F</span><span>a</span><span>y</span><span>e</span>
+      <span aria-hidden="true">F</span><span aria-hidden="true">a</span><span aria-hidden="true">y</span><span aria-hidden="true">e</span>
     </h1>
     <div class="rule"></div>
     <p class="tagline">your personal stylist, in your pocket</p>
 
     <form class="after-reveal waitlist" id="waitlist" novalidate>
-      <input class="email" type="email" name="email" placeholder="your email" autocomplete="email" required aria-label="Email address">
+      <div class="field">
+        <div class="field-inner">
+          <input type="email" name="email" placeholder="your email" autocomplete="email" required aria-label="Email address">
+          <button type="submit">join the waitlist</button>
+        </div>
+      </div>
       <!-- honeypot: real people never see or fill this -->
       <input class="hp" type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true">
-      <button class="beta" type="submit"><span>join the waitlist</span></button>
-      <p class="beta-note" id="waitlistNote">be first in when Faye opens up&ensp;·&ensp;iPhone only, for now</p>
+      <p class="note" aria-live="polite">free to join<span class="sep">·</span>be first in when Faye opens up</p>
     </form>
+
+    <div class="scroll-cue after-reveal" aria-hidden="true"></div>
   </section>
 
-  <section class="after-reveal" style="width:100%">
-    <div class="chat" aria-label="Example conversation with Faye">
-      <p class="msg you photo"><img src="marigold.jpg" alt="A woman in a fitting room holding a marigold top up to the mirror" loading="lazy"></p>
-      <p class="msg you">keep or return? be honest</p>
-      <p class="msg faye"><span class="who">Faye</span>keep. that marigold is pure True Spring — your face got brighter just holding it up. front-tuck it into the jeans from your last win and it&rsquo;s a whole outfit.</p>
-      <p class="msg you">this is why i keep you around</p>
-    </div>
-    <p class="script">honest, like a sister.</p>
-
-    <section class="section">
-      <h2>fluent in Kibbe</h2>
-      <p class="lede">Most apps stop at &ldquo;casual&rdquo; or &ldquo;dressy.&rdquo; Faye speaks the language you already use — set your Kibbe body type and up to two color seasons in your profile, and every piece of advice gets filtered through them.</p>
-      <div class="profile-card">
-        <div class="profile-row">
-          <span class="label">Kibbe body type</span>
-          <span class="value">Soft Natural</span>
-          <span class="desc">balanced frame with soft curves</span>
-        </div>
-        <div class="profile-row">
-          <span class="label">Color season&ensp;&middot;&ensp;up to 2</span>
-          <span class="value">True Spring &middot; Soft Autumn</span>
-          <span class="desc">warm, clear, bright &middot; warm, muted, earthy</span>
-        </div>
+  <div class="wrap after-reveal">
+    <section class="feature">
+      <div class="copy">
+        <span class="eyebrow">the honest take</span>
+        <h2>text her the outfit</h2>
+        <p class="lede">Snap the fitting-room mirror or the outfit on your bed and ask anything: keep or return, which shoes, is it too much for tonight. Faye answers like your most stylish friend would — specific to your body, your colors, and what&rsquo;s already in your closet.</p>
       </div>
-      <p class="caption">all 10 Kibbe types, all 12 color seasons — and if you don&rsquo;t know yours yet, tell her. she&rsquo;ll figure it out with you from your photos.</p>
+      <div class="visual">
+        <div class="chat" aria-label="Example conversation with Faye">
+          <p class="msg you photo"><img src="look-boots.jpg" alt="Mirror photo of an outfit: cream sweater, suede mini skirt, tall tan boots and a pale blue bag" loading="lazy"></p>
+          <p class="msg you">brunch outfit check. be honest</p>
+          <p class="msg faye"><span class="who">Faye</span>sweater, skirt and boots are a yes — cream, suede and cognac are all warm, so they love your True Spring coloring. drop the purse. that icy blue is the one cool note in a warm outfit. grab a tan or cream bag and you&rsquo;re done.</p>
+          <p class="msg you">swapping the bag. this is why i keep you around</p>
+        </div>
+        <p class="script">honest, like a sister.</p>
+      </div>
     </section>
 
-    <section class="section">
-      <h2>outfit wins</h2>
-      <p class="lede">When an outfit works, save it and tag it. Faye remembers every win — so next time you&rsquo;re staring at your closet, she suggests the things that already worked, not clothes you don&rsquo;t own.</p>
-      <div class="wins-grid">
-        <figure class="win"><img src="win-denim.jpg" alt="Saved outfit: denim jacket mirror selfie" loading="lazy" style="object-position: 84% 40%"><figcaption class="tag">date night</figcaption></figure>
-        <figure class="win"><img src="win-beanie.jpg" alt="Saved outfit: beanie and jeans look" loading="lazy" style="object-position: 74% 38%"><figcaption class="tag">weekend</figcaption></figure>
-        <figure class="win"><img src="marigold.jpg" alt="Saved outfit: the marigold top" loading="lazy" style="object-position: 63% 32%"><figcaption class="tag">today</figcaption></figure>
+    <section class="feature flip">
+      <div class="copy">
+        <span class="eyebrow">your profile</span>
+        <h2>fluent in Kibbe</h2>
+        <p class="lede">Most apps stop at &ldquo;casual&rdquo; or &ldquo;dressy.&rdquo; Faye speaks the language you already use — set your Kibbe body type and up to two color seasons in your profile, and every piece of advice gets filtered through them.</p>
       </div>
-      <p class="caption">tap any win to ask her about it again.</p>
+      <div class="visual">
+        <div class="profile-card">
+          <div class="profile-row">
+            <span class="eyebrow">Kibbe body type</span>
+            <span class="value">Soft Natural</span>
+            <span class="desc">balanced frame with soft curves</span>
+          </div>
+          <div class="profile-row">
+            <span class="eyebrow">Color season&ensp;&middot;&ensp;up to 2</span>
+            <span class="value">True Spring &middot; Soft Autumn</span>
+            <span class="desc">warm, clear, bright &middot; warm, muted, earthy</span>
+          </div>
+        </div>
+        <p class="caption">All 10 Kibbe types and all 12 color seasons. Don&rsquo;t know yours yet? Tell her — she&rsquo;ll figure it out with you from your photos.</p>
+      </div>
     </section>
 
-    <p class="features">
-      <span class="item">knows your colors</span><span class="dot">·</span><span class="item">remembers your closet</span><span class="dot">·</span><span class="item">tells you the truth</span>
-    </p>
+    <section class="feature">
+      <div class="copy">
+        <span class="eyebrow">your closet</span>
+        <h2>outfit wins</h2>
+        <p class="lede">When an outfit works, save it and tag it. Faye remembers every win — so next time you&rsquo;re staring at your closet, she suggests the things that already worked, not clothes you don&rsquo;t own.</p>
+      </div>
+      <div class="visual">
+        <div class="wins-grid">
+          <figure class="win"><img src="win-coat.jpg" alt="Saved outfit: camel coat over a white top and belted trousers" loading="lazy"><figcaption class="tag">weekend</figcaption></figure>
+          <figure class="win"><img src="win-beret.jpg" alt="Saved outfit laid out: camel beret, cream knit, gold chain and strappy heels" loading="lazy"><figcaption class="tag">date night</figcaption></figure>
+          <figure class="win"><img src="win-plaid.jpg" alt="Saved outfit: plaid shirt open over a ribbed cream top" loading="lazy"><figcaption class="tag">everyday</figcaption></figure>
+        </div>
+        <p class="caption">Tap any win to ask her about it again.</p>
+      </div>
+    </section>
 
-    <div class="double-rule">
-      <div class="thick"></div>
-      <div class="thin"></div>
-    </div>
-  </section>
+    <section class="principles" aria-label="What Faye does">
+      <div class="principle">
+        <h3>knows your colors</h3>
+        <p>Advice filtered through your body type and color seasons, every time.</p>
+      </div>
+      <div class="principle">
+        <h3>remembers your closet</h3>
+        <p>Your saved wins come back when you need something to wear.</p>
+      </div>
+      <div class="principle">
+        <h3>tells you the truth</h3>
+        <p>If it&rsquo;s not working, she&rsquo;ll say so — kindly, and with a fix.</p>
+      </div>
+    </section>
+
+    <section class="closing">
+      <span class="eyebrow">iPhone only, for now</span>
+      <h2>be first in.</h2>
+      <form class="waitlist" novalidate>
+        <div class="field">
+          <div class="field-inner">
+            <input type="email" name="email" placeholder="your email" autocomplete="email" required aria-label="Email address">
+            <button type="submit">join the waitlist</button>
+          </div>
+        </div>
+        <input class="hp" type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true">
+        <p class="note" aria-live="polite">free to join<span class="sep">·</span>one email when Faye opens up</p>
+      </form>
+    </section>
+  </div>
 </main>
 
-<footer class="after-reveal">
-  your photos and chats are stored only on your phone — never used to train AI<br>
-  <a href="privacy.html" style="color: inherit;">privacy policy</a>&ensp;·&ensp;<a href="support.html" style="color: inherit;">support</a>&ensp;·&ensp;&copy; 2026 Faye
+<footer class="site-footer after-reveal">
+  <div class="double-rule"><div class="thick"></div><div class="thin"></div></div>
+  <p>your photos and chats are stored only on your phone — never used to train AI</p>
+  <nav aria-label="Footer"><a href="privacy.html">privacy policy</a><span class="sep">·</span><a href="support.html">support</a><span class="sep">·</span>&copy; 2026 Faye</nav>
 </footer>
 
 <script>
   // Waitlist: insert straight into Supabase through the REST API. The anon key
   // is public by design; the table's RLS is insert-only, so this can add an
-  // email but never read the list.
+  // email but never read the list. Both forms on the page share this.
   (function () {
     const SUPABASE_URL = 'https://zyfjainfxkdqsammjmke.supabase.co';
     const ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inp5ZmphaW5meGtkcXNhbW1qbWtlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzYwOTUyMDEsImV4cCI6MjA5MTY3MTIwMX0.QrhXEJxqcgTqXy2CzMk2caFgTbvT6MftRCmBW83D3XE';
-    const form = document.getElementById('waitlist');
-    const note = document.getElementById('waitlistNote');
-    const button = form.querySelector('button');
+    const source = new URLSearchParams(location.search).get('src') || 'site';
 
-    function done(msg) {
-      form.classList.add('done');
-      note.textContent = msg;
-      if (window.ttq) ttq.track('SubmitForm');
-    }
+    document.querySelectorAll('form.waitlist').forEach((form) => {
+      const note = form.querySelector('.note');
+      const button = form.querySelector('button');
 
-    form.addEventListener('submit', async (e) => {
-      e.preventDefault();
-      const email = form.email.value.trim().toLowerCase();
-      if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) {
-        note.textContent = 'that email doesn\u2019t look right \u2014 try again?';
-        return;
+      function done(msg) {
+        form.classList.add('done');
+        note.textContent = msg;
+        if (window.ttq) ttq.track('SubmitForm');
       }
-      if (form.website.value) { done('you\u2019re on the list \u2014 talk soon'); return; } // bot
 
-      button.disabled = true;
-      note.textContent = 'one sec\u2026';
-      const source = new URLSearchParams(location.search).get('src') || 'site';
-      try {
-        const r = await fetch(SUPABASE_URL + '/rest/v1/waitlist', {
-          method: 'POST',
-          headers: {
-            'apikey': ANON,
-            'Authorization': 'Bearer ' + ANON,
-            'Content-Type': 'application/json',
-            'Prefer': 'return=minimal'
-          },
-          body: JSON.stringify({ email, source })
-        });
-        if (r.ok || r.status === 409) {           // 409 = already on it
-          done('you\u2019re on the list \u2014 talk soon');
-        } else {
-          throw new Error(r.status);
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const email = form.email.value.trim().toLowerCase();
+        if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) {
+          note.textContent = 'that email doesn’t look right — try again?';
+          return;
         }
-      } catch (err) {
-        button.disabled = false;
-        note.textContent = 'hmm, that didn\u2019t go through \u2014 try once more?';
-      }
+        if (form.website.value) { done('you’re on the list — talk soon'); return; } // bot
+
+        button.disabled = true;
+        note.textContent = 'one sec…';
+        try {
+          const r = await fetch(SUPABASE_URL + '/rest/v1/waitlist', {
+            method: 'POST',
+            headers: {
+              'apikey': ANON,
+              'Authorization': 'Bearer ' + ANON,
+              'Content-Type': 'application/json',
+              'Prefer': 'return=minimal'
+            },
+            body: JSON.stringify({ email, source })
+          });
+          if (r.ok || r.status === 409) {           // 409 = already on it
+            done('you’re on the list — talk soon');
+          } else {
+            throw new Error(r.status);
+          }
+        } catch (err) {
+          button.disabled = false;
+          note.textContent = 'hmm, that didn’t go through — try once more?';
+        }
+      });
     });
   })();
 </script>

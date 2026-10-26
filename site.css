@@ -1,0 +1,251 @@
+/* Shared styles for heyfaye.app. Colors mirror the app's Theme.swift. */
+
+:root {
+  --cream:    #FAF2DB;  /* Theme.background */
+  --card:     #F2E8CF;  /* Theme.cardBackground */
+  --sheet:    #FEF9E8;  /* Theme.chatSurface */
+  --ink:      #1A140F;  /* Theme.accent */
+  --bubble:   #2B2E33;  /* Theme.userBubble */
+  --bubble-text: #FAF5E8; /* Theme.userBubbleText */
+  --rose:     #D19E94;  /* Theme.accentWarm */
+  --text:     #2E2621;  /* Theme.textPrimary */
+  --muted:    #736B66;  /* Theme.textSecondary */
+  --hairline: #E0D9CF;  /* Theme.divider */
+
+  --serif-display: "DM Serif Display", Georgia, serif;
+  --serif: "EB Garamond", Georgia, serif;
+  --ease: cubic-bezier(0.19, 1, 0.22, 1);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html {
+  scroll-behavior: smooth;
+  color-scheme: light;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  background: var(--cream);
+  color: var(--text);
+  font-family: var(--serif);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+::selection { background: var(--ink); color: var(--cream); }
+
+a { color: var(--ink); text-underline-offset: 3px; text-decoration-thickness: 0.5px; }
+
+:focus-visible { outline: 1.5px solid var(--ink); outline-offset: 3px; }
+
+/* ---------- top bar (inner pages) ---------- */
+
+.topbar {
+  width: 100%;
+  max-width: 1080px;
+  padding: 22px 28px;
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+}
+
+.topbar .mark {
+  font-family: var(--serif-display);
+  font-style: italic;
+  font-size: 30px;
+  line-height: 1;
+  color: var(--ink);
+  text-decoration: none;
+}
+
+.topbar nav { display: flex; gap: 22px; }
+
+.topbar nav a {
+  font-size: 12px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--muted);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+.topbar nav a:hover, .topbar nav a[aria-current] { color: var(--ink); }
+
+/* ---------- small caps label ---------- */
+
+.eyebrow {
+  display: block;
+  font-size: 12px;
+  letter-spacing: 2.4px;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+/* ---------- editorial double rule ---------- */
+
+.double-rule { width: min(280px, 60vw); margin: 0 auto; }
+.double-rule .thick { height: 2.5px; background: var(--ink); }
+.double-rule .thin  { height: 0.5px; background: var(--ink); margin-top: 3px; }
+
+/* ---------- footer ---------- */
+
+.site-footer {
+  width: 100%;
+  max-width: 1080px;
+  margin-top: auto;
+  padding: 56px 28px 44px;
+  text-align: center;
+}
+
+.site-footer .double-rule { margin-bottom: 26px; }
+
+.site-footer p {
+  font-style: italic;
+  font-size: 14.5px;
+  line-height: 1.9;
+  color: var(--muted);
+}
+
+.site-footer nav {
+  margin-top: 6px;
+  font-style: italic;
+  font-size: 14.5px;
+  color: var(--muted);
+}
+.site-footer nav a { color: var(--muted); transition: color 0.2s ease; }
+.site-footer nav a:hover { color: var(--ink); }
+.site-footer .sep { margin: 0 10px; color: var(--rose); }
+
+/* ---------- legal / help pages ---------- */
+
+.doc {
+  width: 100%;
+  max-width: 680px;
+  padding: 0 28px;
+}
+
+.doc-head {
+  padding: clamp(40px, 8svh, 80px) 0 0;
+  text-align: center;
+}
+
+.doc-head h1 {
+  font-family: var(--serif-display);
+  font-style: italic;
+  font-weight: 400;
+  font-size: clamp(40px, 9vw, 56px);
+  line-height: 1.05;
+  color: var(--ink);
+  margin-top: 12px;
+}
+
+.doc-head .rule {
+  width: min(200px, 50vw);
+  height: 0.75px;
+  background: var(--ink);
+  margin: 22px auto 0;
+}
+
+.doc-head .effective {
+  font-style: italic;
+  font-size: 14.5px;
+  color: var(--muted);
+  margin-top: 16px;
+}
+
+.doc .intro {
+  margin: 34px auto 0;
+  max-width: 54ch;
+  font-size: 18.5px;
+  line-height: 1.6;
+  text-align: center;
+  color: var(--ink);
+}
+
+.doc .toc {
+  margin: 40px 0 0;
+  padding: 22px 26px;
+  background: var(--sheet);
+  border: 0.75px solid var(--hairline);
+  border-radius: 14px;
+}
+
+.doc .toc ol {
+  list-style: none;
+  margin-top: 10px;
+  columns: 2;
+  column-gap: 28px;
+}
+
+.doc .toc li {
+  break-inside: avoid;
+  font-style: italic;
+  font-size: 16px;
+  line-height: 1.9;
+}
+
+.doc .toc a { color: var(--text); text-decoration: none; }
+.doc .toc a:hover { color: var(--ink); text-decoration: underline; }
+
+@media (max-width: 520px) {
+  .doc .toc ol { columns: 1; }
+}
+
+.doc section {
+  margin-top: 44px;
+  scroll-margin-top: 24px;
+}
+
+.doc section + section {
+  border-top: 0.5px solid var(--hairline);
+  padding-top: 38px;
+}
+
+.doc h2 {
+  font-family: var(--serif-display);
+  font-style: italic;
+  font-weight: 400;
+  font-size: 26px;
+  line-height: 1.2;
+  color: var(--ink);
+}
+
+.doc section p, .doc section li {
+  margin-top: 14px;
+  font-size: 17px;
+  line-height: 1.65;
+}
+
+.doc section ul { margin-top: 4px; padding-left: 20px; }
+.doc section li { margin-top: 10px; padding-left: 4px; }
+.doc section li::marker { color: var(--rose); }
+
+.doc strong { font-weight: 600; color: var(--ink); }
+
+.doc .contact {
+  margin-top: 40px;
+  padding: 26px;
+  text-align: center;
+  background: var(--sheet);
+  border: 0.75px solid var(--hairline);
+  border-radius: 14px;
+}
+
+.doc .contact .email {
+  display: inline-block;
+  margin-top: 8px;
+  font-style: italic;
+  font-size: 21px;
+  overflow-wrap: anywhere;
+}
+
+.doc .contact p {
+  margin-top: 6px;
+  font-style: italic;
+  font-size: 15px;
+  color: var(--muted);
+}
